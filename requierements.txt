@@ -1,14 +1,6 @@
 streamlit
 pandas
+openpyxl
 selenium
 webdriver-manager
-openpyxl
-webdriver
-Service
-ChromeDriverManager
-quote
-time
-pandas as pd
-BytesIO
-
 
