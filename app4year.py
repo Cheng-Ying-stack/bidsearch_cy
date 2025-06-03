@@ -7,12 +7,14 @@ from urllib.parse import quote
 import time
 import pandas as pd
 from io import BytesIO
+import json
+
 
 # Streamlit UI
 st.title("🔍 政府標案_年度標案查詢工具")
-st.subheader("📌開發者: CYCY得第一, 2025")
+st.subheader("📌開發者: cycy.exe, 2025")
 
-a = st.text_input("請輸入關鍵字（例如：公司名稱/標案關鍵字）", value="非破壞性檢測")
+a = st.text_input("請輸入關鍵字（例如：公司名稱/標案關鍵字）", value="乾坤測繪科技有限公司")
 b = st.selectbox("標案種類", ["招標","決標","公開閱覽及公開徵求","政府採購預告" ])
 start_year = st.number_input("起始民國年", min_value=97, max_value=114, value=110)
 end_year = st.number_input("結束民國年", min_value=97, max_value=114, value=114)
@@ -24,6 +26,7 @@ if st.button("開始爬蟲，等等你將會獲得整個宇宙 🚀"):
 
         for year in range(start_year, end_year + 1):
             st.write(f"📅 正在處理民國 {year} 年...")
+            
 
             a_encoded = quote(a)
             url = (
@@ -54,21 +57,20 @@ if st.button("開始爬蟲，等等你將會獲得整個宇宙 🚀"):
             yearly_data[str(year)] = df
 
         driver.quit()
+        st.session_state.yearly_data = yearly_data
+        st.session_state.data_loaded = True
         st.success("✅ 資料擷取完成！")
 
-        # 顯示預覽
-        for year, df in yearly_data.items():
-            st.subheader(f"📄 民國 {year} 年")
-            st.dataframe(df)
 
-        # 下載連結
+        # Excel 下載
         output = BytesIO()
         with pd.ExcelWriter(output, engine="openpyxl") as writer:
             for year, df in yearly_data.items():
                 df.to_excel(writer, sheet_name=year, index=False)
+
         st.download_button(
             label="⬇️ 下載 Excel 檔",
             data=output.getvalue(),
-            file_name=f"{a}_{b}標案資料.xlsx",
+            file_name=f"{start_year}-{end_year}_{a}{b}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
