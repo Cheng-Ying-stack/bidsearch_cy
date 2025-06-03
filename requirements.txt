@@ -3,5 +3,6 @@ pandas
 selenium
 webdriver-manager
 openpyxl
+beautifulsoup4
 
 
