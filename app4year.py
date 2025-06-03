@@ -72,9 +72,3 @@ if st.button("開始爬蟲，等等你將會獲得整個宇宙 🚀"):
             file_name=f"{a}_{b}標案資料.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-        # 上傳到 Notion
-        if st.checkbox("✅ 將資料導入 Notion"):
-            for year, df in yearly_data.items():
-                st.write(f"🚀 正在將民國 {year} 年資料匯入 Notion...")
-                push_to_notion(df, year)
-            st.success("📥 所有資料已匯入 Notion！")
