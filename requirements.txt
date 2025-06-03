@@ -4,5 +4,7 @@ selenium
 webdriver-manager
 openpyxl
 beautifulsoup4
+streamlit-lottie
+
 
 
